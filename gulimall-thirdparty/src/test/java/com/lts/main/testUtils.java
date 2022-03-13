@@ -16,6 +16,8 @@ public class testUtils {
     public void testRedis() {
         Jedis redis = new Jedis("101.133.149.79", 6379);
 
+        redis.set("name","lts");
+
 //        测试通过
         System.out.println(redis.ping());
     }
@@ -57,15 +59,16 @@ public class testUtils {
         String codeKey="verify"+phone+":code";
 
 //        判断手机号是否存在
-        Jedis jedis=new Jedis("101,133.149.79",6379);
+        Jedis jedis=new Jedis("101.133.149.79",6379);
 
-        if(jedis.get(codeKey)==null){
+        if(jedis.get(countKey)==null){
 //            设置手机的发送次数为1且设置过期时间为1天
             jedis.setex(countKey,24*60*60,"1");
         }
-        else if(Integer.parseInt(jedis.get(codeKey))<=2){
+        else if(Integer.parseInt(jedis.get(countKey))<=2){
+            System.out.println(jedis.get(countKey));
 //            让countKey的值加一
-            jedis.incr(codeKey);
+            jedis.incr(countKey);
         }else {
             return "每天只能发送三次";
         }
@@ -79,7 +82,7 @@ public class testUtils {
 
 //    判断验证码是否正确
     public Boolean rightCode(String phone,String code){
-        Jedis jedis=new Jedis("101,133.149.79",6379);
+        Jedis jedis=new Jedis("101.133.149.79",6379);
         if(jedis.get("verify"+phone+":code").equals(code)){
             jedis.close();
             return true;

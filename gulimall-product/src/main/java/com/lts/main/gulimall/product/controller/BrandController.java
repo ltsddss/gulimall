@@ -1,9 +1,11 @@
 package com.lts.main.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import com.lts.main.gulimall.product.service.BrandService;
 import com.lts.main.common.utils.PageUtils;
 import com.lts.main.common.utils.R;
 
+import javax.validation.Valid;
 
 
 /**
@@ -54,22 +57,40 @@ public class BrandController {
     }
 
     /**
-     * 保存
+     * 保存 开启JER303校验后绑定一个BingingResult就可以获得校验结果
+     * Springboot提供了注解，可以统一将异常集中处理也可以创建一个类
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
-		brandService.save(brand);
+    public R save(@Valid @RequestBody BrandEntity brand){
 
-        return R.ok();
+//        Map<String,String> map=new HashMap<>();
+//        if(result.hasErrors()){
+//            //        获取到对应的错误信息进行判断
+//            result.getFieldErrors().forEach((item)->{
+////            获取错误提示
+//                String message = item.getDefaultMessage();
+////            获取错误属性的名称
+//                String field = item.getField();
+//
+//                map.put(field,message);
+//            });
+//            return R.error(400,"提交的数据不合法").put("data",map);
+//        }
+//        else {
+            brandService.save(brand);
+
+            return R.ok();
+//        }
     }
 
     /**
      * 修改
      */
     @RequestMapping("/update")
+//    在entity的实体类下写的校验规则要在这里开启校验，不然Controller时不会进行校验的
     //@RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand){
+    public R update(@Valid @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
 
         return R.ok();
