@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.lts.main.common.valid.AddGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,10 +61,11 @@ public class BrandController {
     /**
      * 保存 开启JER303校验后绑定一个BingingResult就可以获得校验结果
      * Springboot提供了注解，可以统一将异常集中处理也可以创建一个类
+     * jre303使用分组校验，配置接口所在的组,当检验规则上出现新增组的规则时就会校验，没有则不校验
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:brand:save")
-    public R save(@Valid @RequestBody BrandEntity brand){
+    public R save(@Validated(value = AddGroup.class) @RequestBody BrandEntity brand){
 
 //        Map<String,String> map=new HashMap<>();
 //        if(result.hasErrors()){

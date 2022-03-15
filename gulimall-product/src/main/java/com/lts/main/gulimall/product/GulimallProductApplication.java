@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * 对于产品表设置逻辑删除字段（配置mybatisplus）
  */
 @MapperScan("com/lts/main/gulimall/product/dao")
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.lts.main.gulimall")
 @EnableDiscoveryClient
 public class GulimallProductApplication {
     public static void main(String[] args) {
