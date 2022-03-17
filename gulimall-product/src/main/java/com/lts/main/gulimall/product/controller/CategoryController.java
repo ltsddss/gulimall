@@ -37,7 +37,7 @@ public class CategoryController {
         List<CategoryEntity> category= categoryService.listWithTree();
 
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
 

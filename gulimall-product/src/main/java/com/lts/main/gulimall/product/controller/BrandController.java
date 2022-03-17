@@ -93,7 +93,7 @@ public class BrandController {
     @RequestMapping("/update")
 //    在entity的实体类下写的校验规则要在这里开启校验，不然Controller时不会进行校验的
     //@RequiresPermissions("product:brand:update")
-    public R update(@Valid @RequestBody BrandEntity brand){
+    public R update(@RequestBody BrandEntity brand){
 		brandService.updateById(brand);
 
         return R.ok();
