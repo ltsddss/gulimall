@@ -2,6 +2,8 @@ package com.lts.main.gulimall.product.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,6 +53,34 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             return (menu1.getSort()==null?0:menu1.getSort())-(menu2.getSort()==null?0:menu2.getSort());
         }).collect(Collectors.toList());
         return categoryEntities;
+    }
+
+    @Override
+    public Long[] findcategoryPath(Long attrGroupId) {
+//        通过attrGroupId来找到他的父id,将结果存入一个list中最后强转为long[]
+        List<Long> list=new ArrayList<>();
+
+        List<Long> categorypath=getpath(attrGroupId,list);
+
+//        将list逆序转换
+        Collections.reverse(categorypath);
+
+        return categorypath.toArray(new Long[categorypath.size()]);
+    }
+
+    /**
+     * 递归寻找父id
+     */
+
+    private List<Long> getpath(Long attrGroupId,List<Long> list){
+//        收集当前节点
+        list.add(attrGroupId);
+        CategoryEntity category = this.getById(attrGroupId);
+
+        if(category.getParentCid()!=0){
+            getpath(category.getParentCid(),list);
+        }
+        return list;
     }
 
     /**

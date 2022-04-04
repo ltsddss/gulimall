@@ -3,6 +3,7 @@ package com.lts.main.gulimall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.lts.main.gulimall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,10 @@ public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
 
+//    注入三级分类的service
+    @Autowired
+    private CategoryService categoryService;
+
     /**
      * 列表
      */
@@ -49,7 +54,17 @@ public class AttrGroupController {
     @RequestMapping("/info/{attrGroupId}")
     //@RequiresPermissions("product:attrgroup:info")
     public R info(@PathVariable("attrGroupId") Long attrGroupId){
+//        根据id查询信息
 		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
+//         再查寻该id的全路径
+
+        Long category=attrGroup.getCatelogId();
+
+        Long[] catelogPath=categoryService.findcategoryPath(category);
+
+        attrGroup.setCatelogPath(catelogPath);
+
+        System.out.println(attrGroup);
 
         return R.ok().put("attrGroup", attrGroup);
     }

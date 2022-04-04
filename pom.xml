@@ -19,6 +19,7 @@
         <module>renren-generator</module>
         <module>gulimall-gateway</module>
         <module>gulimall-thirdparty</module>
+        <module>gulimall-search</module>
 
     </modules>
 

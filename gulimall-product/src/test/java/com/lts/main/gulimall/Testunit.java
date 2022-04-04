@@ -4,6 +4,7 @@ package com.lts.main.gulimall;
 import com.lts.main.gulimall.product.GulimallProductApplication;
 import com.lts.main.gulimall.product.entity.BrandEntity;
 import com.lts.main.gulimall.product.service.BrandService;
+import com.lts.main.gulimall.product.service.CategoryService;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
@@ -22,6 +23,9 @@ class Testunit {
 
     @Autowired
     BrandService brandService;
+    @Autowired
+    CategoryService categoryService;
+
 
 //    测试minio的功能
     @Test
@@ -71,5 +75,15 @@ class Testunit {
         brandService.save(brand);
 
         System.out.println("保存成功");
+    }
+
+//    测试是否可以返回categoryID的全路径
+    @Test
+    public void testsss(){
+        Long[] longs = categoryService.findcategoryPath(225L);
+
+        for (Long aLong : longs) {
+            System.out.println(aLong);
+        }
     }
 }
